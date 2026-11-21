@@ -206,40 +206,78 @@
         base {
             display-name = "BASE";
             bindings = <
-                &kp TAB   &kp Q &kp W &kp E &kp R &kp T   &kp Y &kp U  &kp I     &kp O   &kp P    &kp BSPC
-                &kp LCTRL &kp A &kp S &kp D &kp F &kp G   &kp H &kp J  &kp K     &kp L   &kp SEMI &kp SQT
-                &kp LSHFT &kp Z &kp X &kp C &kp V &kp B   &kp N &kp M  &kp COMMA &kp DOT &kp FSLH &kp ESC
-                                &kp LGUI &mo 1 &kp SPACE   &kp RET &mo 2 &kp RALT
+
+            // -----------------------------------------------------------------------------------------
+            // | TAB |  Q  |  W  |  E  |  R  |  T  |           |  Y  |  U  |  I  |  O  |  P  | DEL |
+            // | ESC
+            // |半/全|  A  |  S  |  D  |  F  |  G  |           |  H  |  J  |  K  |  L  |  -  | ALT | 
+            // |SHIFT    
+            // |CAPS |  Z  |  X  |  C  |  V  |  B  |           |  N  |  M  |  ,  |  .  |  /  |  ?  |
+            // |CTRL
+            //                        | WIN | nav |PACE|    | ENT | SYS | BS | 
+            //                              MUHENKAN                HENKAN
+
+&tab_esc ESCAPE TAB  &kp Q  &kp W  &kp E  &kp R  &kp T  &kp Y  &kp U  &kp I  &kp O  &kp P  &kp DEL
+&jis_shft LSHIFT JP_HANZEN  &kp A  &kp S  &kp D  &kp F  &kp G  &kp H  &kp J  &kp K  &kp L  &moA  &kp LALT  
+&caps_ctrl LCTRL LS(CAPS)  &kp Z  &kp X  &kp C  &kp V  &kp B  &kp N  &kp M  &kp COMMA  &kp DOT  &kp FSLH  &kp  LS(FSLH) 
+&kp LGUI  &lt_nav_muhenkan 1 INT_MUHENKAN  &kp SPACE  &kp RET  &lt_sys_henkan 2 INT_HENKAN  &kp BSPC
             >;
         };
 
         nav {
             display-name = "NAV";
             bindings = <
-                &kp TAB     &kp N1          &kp N2       &kp N3       &kp N4       &kp N5         &kp N6   &kp N7   &kp N8 &kp N9    &kp N0 &kp BSPC
-                &bt BT_CLR  &bt BT_SEL 0    &bt BT_SEL 1 &bt BT_SEL 2 &bt BT_SEL 3 &bt BT_SEL 4   &kp LEFT &kp DOWN &kp UP &kp RIGHT &trans &trans
-                &kp LSHFT   &studio_unlock  &trans       &trans       &trans       &trans         &trans   &trans   &trans &trans    &trans &trans
-                                                &kp LGUI     &trans       &kp SPACE      &kp RET  &trans   &kp RALT
+
+            // | TAB |  !  |  @  |  #  |  $  |  %  |           |PAGE_UP  |HOME |  ↑  | END | PRSC | ALT   |
+            // | ESC
+            // |半/全|  ^  |  &  |  *  |  (  |  )  |           |PAGE_DOWN|  ←  |  ↓  |  →  | SCLK |PAUSE_BREAK|
+            // | SHIFT  
+            // |GCOPY|  "  |  ¥  |  ;  |  [  |  ]  |           |  　-    |  _  |  <  |  >  |   {  |   }  |
+            // | CTRL   
+            //                        | unlock | nav |SPACE|    | ENT | sys | BS |    
+
+&tab_esc ESCAPE TAB  &kp EXCLAMATION  &kp JP_AT &kp HASH &kp DOLLAR &kp PERCENT   &kp PAGE_UP  &kp HOME  &kp UP_ARROW  &kp END  &kp PRINTSCREEN   &kp RALT 
+&jis_shft LSHIFT JP_HANZEN  &kp JP_CARET  &kp JP_AMPERSAND  &kp JP_ASTERISK  &kp JP_LPAREN  &kp JP_RPAREN  &kp PAGE_DOWN  &kp LEFT  &kp DOWN_ARROW  &kp RIGHT  &kp SCROLLLOCK  &kp PAUSE_BREAK  
+&caps_ctrl LCTRL LS(LG(S))  &kp JP_DQUOTE  &kp JP_YEN  &kp SEMI  &kp JP_LBRACKET  &kp JP_RBRACKET  &kp MINUS  &kp JP_UNDERSCORE  &kp JP_LESS_THAN  &kp JP_GREATER_THAN &kp JP_LBRACE  &kp JP_RBRACE    
+&studio_unlock  &trans  &kp SPACE  &kp RET  &trans  &kp BSPC
             >;
         };
 
         sym {
             display-name = "SYM";
             bindings = <
-                &kp TAB   &kp EXCL &kp AT &kp HASH &kp DLLR &kp PRCNT   &kp CARET &kp AMPS  &kp KP_MULTIPLY &kp LPAR &kp RPAR &kp BSPC
-                &kp LCTRL &trans   &trans &trans   &trans   &trans      &kp MINUS &kp EQUAL &kp LBKT        &kp RBKT &kp BSLH &kp GRAVE
-                &kp LSHFT &trans   &trans &trans   &trans   &trans      &kp UNDER &kp PLUS  &kp LBRC        &kp RBRC &kp PIPE &kp TILDE
-                                          &kp LGUI &trans   &kp SPACE   &kp RET   &trans    &kp RALT
+
+            // | TAB |  1  |  2  |  3  |  4  |  5  |     　   |NUMLOCK|  7  |  8  |  9  |  + |  BS |
+            // |ESC
+            // |半/全|  6  |  7  |  8  |  9  |  0  |    　　   |   ,  |  4  |  5  |  6  |  - |  =  |
+            // |SHIFT  
+            // |CAPS |  `  |  '  |  :  |  ~  |  _  |     　    |   .  |  1  |  2  |  3  |  / |  *  |
+            // |CTRL 
+            //                　   | WIN  | nav | SPACE|   | ENT | sys |  0   |   
+
+&tab_esc ESCAPE TAB  &kp N1  &kp N2  &kp N3  &kp N4  &kp N5  &kp KP_NUMLOCK  &kp KP_NUMBER_7  &kp KP_NUMBER_8  &kp KP_NUMBER_9  &kp KP_PLUS  &kp BSPC  
+&jis_shft LSHIFT JP_HANZEN  &kp N6  &kp NUMBER_7  &kp NUMBER_8  &kp NUMBER_9  &kp NUMBER_0  &kp COMMA  &kp KP_NUMBER_4  &kp KP_NUMBER_5  &kp KP_NUMBER_6  &kp KP_MINUS  &kp JP_EQUAL  
+&caps_ctrl LCTRL LS(CAPS)  &kp JP_BACKQUOTE  &kp JP_QUOTE &kp JP_COLON  &kp JP_TILDE  &kp JP_UNDERSCORE  &kp KP_DOT  &kp KP_NUMBER_1  &kp KP_NUMBER_2  &kp KP_NUMBER_3 &kp KP_DIVIDE &kp KP_ASTERISK    
+&kp LGUI  &trans  &kp SPACE  &kp RET  &trans  &kp KP_NUMBER_0
             >;
         };
 
         adj {
             display-name = "ADJ";
             bindings = <
-                &mo TAB   &trans &kp F7 &kp F8 &kp F9 &kp F12   &kp C_VOL_DN &kp C_MUTE  &kp C_VOL_UP &trans &trans &kp BSPC
-                &kp LCTRL &trans &kp F4 &kp F5 &kp F6 &kp F11   &trans       &trans      &trans       &trans &trans &trans
-                &bt LSHFT &trans &kp F1 &kp F2 &kp F3 &kp F10   &trans       &trans      &trans       &trans &trans &trans
-                                   &kp LGUI &mo NAV &kp SPACE   &kp RET &mo 2 &kp RALT
+
+            // | TAB |  F1  |  F2  |  F3  |  F4  |  F5  |           | BT0 | BT1 | BT2 | BT3 |  BT4   | ALT |
+            // |    ESC
+            // |SHIFT|  F6  |  F7  |  F8  |  F9  |  F0  |           |     |     |BTCLR|BTallCLR|     |     |
+            // |    半/全
+            // |CTRL |  F11  | F12 |      |      |      |           |     |     |     |     |        |     |
+            // |    CAPS
+            //                        | WIN | nav | SPACE |    | ENT | sys |  BS |   
+
+&kp TAB  &kp F1  &kp F2  &kp F3  &kp F4  &kp F5  &bt BT_SEL 0  &bt BT_SEL 1  &bt BT_SEL 2  &bt BT_SEL 3  &bt BT_SEL 4   &kp RALT 
+&kp LEFT_SHIFT  &kp F6  &kp F7  &kp F8  &kp F9  &kp F10  &trans  &trans  &bt BT_CLR  &bt BT_CLR_ALL  &trans  &trans  
+&kp LCTRL  &kp F11  &kp F12  &kp F13  &kp F14  &kp F15  &kp C_VOL_DN &kp C_MUTE  &kp C_VOL_UP  &trans  &trans  &trans  
+&kp LGUI  &mo NAV  &kp SPACE  &kp RET  &mo 2  &kp BSPC
             >;
         };
 
