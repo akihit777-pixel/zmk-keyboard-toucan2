@@ -8,6 +8,33 @@
 #define NAV  1
 #define SYM  2
 #define ADJ  3
+#define MOUSE 6
+#define JP_DQUOTE       AT                // "
+#define JP_AMPERSAND    CARET             // &
+#define JP_QUOTE        AMPERSAND         // '
+#define JP_EQUAL        UNDER             // =
+#define JP_CARET        EQUAL             // ^
+#define JP_YEN          0x89              // ¥
+#define JP_PLUS         COLON             // +
+#define JP_TILDE        PLUS              // ~
+#define JP_PIPE         LS(0x89)          // |
+#define JP_AT           LEFT_BRACKET      // @
+#define JP_COLON        SINGLE_QUOTE      // :
+#define JP_ASTERISK     DOUBLE_QUOTES     // *
+#define JP_BACKQUOTE    LEFT_BRACE        // `
+#define JP_UNDERSCORE   LS(0x87)          // _
+#define JP_LBRACKET     RIGHT_BRACKET     // [
+#define JP_RBRACKET     BACKSLASH         // ]
+#define JP_LPAREN       ASTERISK          // (
+#define JP_RPAREN       LEFT_PARENTHESIS  // )
+#define JP_LBRACE       RIGHT_BRACE       // {
+#define JP_RBRACE       PIPE              // }
+#define JP_KANA         LANGUAGE_1        // かな
+#define JP_EISU         LANGUAGE_2        // 英数
+#define JP_HANZEN       GRAVE             // 半角/全角
+#define JP_BSLH         INT1              // (backslash)
+#define JP_LESS_THAN    LS(COMMA)         // <
+#define JP_GREATER_THAN LS(DOT)           // >
 
 / {
     conditional_layers {
@@ -15,6 +42,161 @@
         tri_layer {
             if-layers = <1 2>;
             then-layer = <3>;
+        };
+    };
+
+    moA: moA {
+        compatible = "zmk,behavior-mod-morph";
+        #binding-cells = <0>;
+        bindings = <&kp MINUS>, <&kp UNDERSCORE>;
+
+        mods = <(MOD_LSFT|MOD_RSFT)>;
+    };
+
+    moB: moB {
+        compatible = "zmk,behavior-mod-morph";
+        #binding-cells = <0>;
+        bindings = <&kp EQUAL>, <&kp PLUS>;
+
+        mods = <(MOD_LSFT|MOD_RSFT)>;
+    };
+
+    moC: moC {
+        compatible = "zmk,behavior-mod-morph";
+        #binding-cells = <0>;
+        bindings = <&kp INT3>, <&kp JP_PIPE>;
+
+        mods = <(MOD_LSFT|MOD_RSFT)>;
+    };
+
+    moD: moD {
+        compatible = "zmk,behavior-mod-morph";
+        #binding-cells = <0>;
+        bindings = <&kp LBKT>, <&kp LBRC>;
+
+        mods = <(MOD_LSFT|MOD_RSFT)>;
+    };
+
+    moE: moE {
+        compatible = "zmk,behavior-mod-morph";
+        #binding-cells = <0>;
+        bindings = <&kp RBKT>, <&kp RBRC>;
+
+        mods = <(MOD_LSFT|MOD_RSFT)>;
+    };
+
+    moF: moF {
+        compatible = "zmk,behavior-mod-morph";
+        #binding-cells = <0>;
+        bindings = <&kp SEMI>, <&kp KP_PLUS>;
+
+        mods = <(MOD_LSFT|MOD_RSFT)>;
+    };
+
+    moG: moG {
+        compatible = "zmk,behavior-mod-morph";
+        #binding-cells = <0>;
+        bindings = <&kp APOSTROPHE>, <&kp DQT>;
+
+        mods = <(MOD_LSFT|MOD_RSFT)>;
+    };
+
+    moH: moH {
+        compatible = "zmk,behavior-mod-morph";
+        #binding-cells = <0>;
+        bindings = <&kp BACKSLASH>, <&kp TILDE2>;
+
+        mods = <(MOD_LSFT|MOD_RSFT)>;
+    };
+
+    moI: moI {
+        compatible = "zmk,behavior-mod-morph";
+        #binding-cells = <0>;
+        bindings = <&kp JP_BSLH>, <&kp JP_UNDERSCORE>;
+
+        mods = <(MOD_LSFT|MOD_RSFT)>;
+    };
+
+    behaviors {
+        // カスタムHold-Tapの名前を定義
+        lt_nav_muhenkan: lt_nav_muhenkan {
+            compatible = "zmk,behavior-hold-tap";
+            label = "LT_NAV_MUHENKAN";
+            #binding-cells = <2>;
+            tapping-term-ms = <200>;      // 判定時間（好みに合わせて150〜200で調整）
+            quick-tap-ms = <200>;        // 連続タップ時はタップ（無変換）を優先
+            flavor = "hold-preferred";    // 迷ったらホールド（レイヤー）を優先する設定
+            bindings = <&mo>, <&kp>;
+        };
+    };
+    behaviors {
+        // カスタムHold-Tapの名前を定義
+        lt_sys_henkan: lt_sys_henkan {
+            compatible = "zmk,behavior-hold-tap";
+            label = "LT_SYS_HENKAN";
+            #binding-cells = <2>;
+            tapping-term-ms = <200>;      // 判定時間（好みに合わせて150〜200で調整）
+            quick-tap-ms = <200>;        // 連続タップ時はタップ（無変換）を優先
+            flavor = "hold-preferred";    // 迷ったらホールド（レイヤー）を優先する設定
+            bindings = <&mo>, <&kp>;
+        };
+    };
+
+    behaviors {
+        // 短押しでTAB、長押しでESCを送信する設定
+        tab_esc: tab_esc_behavior {
+            compatible = "zmk,behavior-hold-tap";
+            label = "TAB_ESC";
+            #binding-cells = <2>;
+            tapping-term-ms = <200>;   // 長押しと判定する時間（ミリ秒）
+            quick-tap-ms = <200>;     // TABを素早く連打できるようにする設定
+            flavor = "tap-preferred";  // 誤入力を防ぐためタップを優先
+            bindings = <&kp>, <&kp>;
+        };
+    };
+
+    behaviors {
+        // 短押しで半角/全角(JP_HANZEN)、長押しでLSHIFTを送信する設定
+        jis_shft: jis_shft_behavior {
+            compatible = "zmk,behavior-hold-tap";
+            label = "JIS_SHFT";
+            #binding-cells = <2>;
+            tapping-term-ms = <200>;      // 長押しと判定する時間（ミリ秒）
+            quick-tap-ms = <0>;           // 誤判定を防ぐため修飾キーホールド時は0を推奨
+            flavor = "balanced";          // Shiftを他の文字と同時押しした時に確実に機能させる
+            bindings = <&kp>, <&kp>;
+        };
+    };
+
+    behaviors {
+        // 短押しでCAPS、長押しでLCTRLを送信する設定
+        caps_ctrl: caps_ctrl_behavior {
+            compatible = "zmk,behavior-hold-tap";
+            label = "CAPS_CTRL";
+            #binding-cells = <2>;
+            tapping-term-ms = <200>;      // 長押しと判定する時間（ミリ秒）
+            quick-tap-ms = <0>;           // 誤判定を防ぐため修飾キーホールド時は0を推奨
+            flavor = "hold-preferred";          // ショートカット操作時に確実にCTRLを機能させる
+            bindings = <&kp>, <&kp>;
+        };
+    };
+
+    combos {
+        compatible = "zmk,combos";
+
+        CONBO_ESC {
+            bindings = <&kp ESCAPE>;
+            key-positions = <0 1>;
+        };
+
+        COMBO_JP_HANZEN {
+            bindings = <&kp JP_HANZEN>;
+            key-positions = <12 13>;
+        };
+
+        COMBO_CAPS {
+            bindings = <&kp LS(CAPS)>;
+            key-positions = <24 25>;
         };
     };
 
